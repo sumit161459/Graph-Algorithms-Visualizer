@@ -1,4 +1,3 @@
-
 import React, { Component } from 'react';
 import './pathFindingVisualizer.css';
 import Node from './node';
@@ -15,14 +14,31 @@ import {
   getNodesInShortestPathOrderBFS,
 } from '../pathfindingAlgorithms/breadthFirstSearch';
 
+import {
+  dijkstra,
+  getNodesInShortestPathOrderDijkstra,
+} from '../pathfindingAlgorithms/dijkstra';
+
+import {
+  astar,
+  getNodesInShortestPathOrderAstar,
+} from '../pathfindingAlgorithms/astar';
+
+import { randomWalk } from '../pathfindingAlgorithms/randomWalk';
+
+import {
+  greedyBFS,
+  getNodesInShortestPathOrderGreedyBFS,
+} from '../pathfindingAlgorithms/greedyBestFirstSearch';
+
 const initialNum = getInitialNum(window.innerWidth, window.innerHeight);
 const numberOfRows = initialNum[0];
 const numberOfColumns = initialNum[1];
 
 const startNodeRow = 0;
 const startNodeCol = 0;
-const finishNodeRow = 10;
-const finishNodeCol = 10;
+const finishNodeRow = 20;
+const finishNodeCol = 55;
 
 export class PathFindingVisualizer extends Component {
   state = {
@@ -81,6 +97,93 @@ export class PathFindingVisualizer extends Component {
       this.animateAlgorithm(visitedNodesInOrder, nodesInShortestPathOrder);
     }, 10);
   }
+
+  visualizeDijkstra() {
+    if (this.state.visualizingAlgorithm) {
+      return;
+    }
+    this.setState({ visualizingAlgorithm: true });
+    setTimeout(() => {
+      const { grid } = this.state;
+      const startNode = grid[startNodeRow][startNodeCol];
+      const finishNode = grid[finishNodeRow][finishNodeCol];
+      const visitedNodesInOrder = dijkstra(grid, startNode, finishNode);
+      const nodesInShortestPathOrder =
+        getNodesInShortestPathOrderDijkstra(finishNode);
+      this.animateAlgorithm(visitedNodesInOrder, nodesInShortestPathOrder);
+    }, 10);
+  }
+
+  visualizeAStar() {
+    if (this.state.visualizingAlgorithm) {
+      return;
+    }
+    this.setState({ visualizingAlgorithm: true });
+    setTimeout(() => {
+      const { grid } = this.state;
+      const startNode = grid[startNodeRow][startNodeCol];
+      const finishNode = grid[finishNodeRow][finishNodeCol];
+      const visitedNodesInOrder = astar(grid, startNode, finishNode);
+      const nodesInShortestPathOrder =
+        getNodesInShortestPathOrderAstar(finishNode);
+      this.animateAlgorithm(visitedNodesInOrder, nodesInShortestPathOrder);
+    }, 10);
+  }
+
+  visualizeRandomWalk() {
+    if (this.state.visualizingAlgorithm) {
+      return;
+    }
+    this.setState({ visualizingAlgorithm: true });
+    setTimeout(() => {
+      const { grid } = this.state;
+      const startNode = grid[startNodeRow][startNodeCol];
+      const finishNode = grid[finishNodeRow][finishNodeCol];
+      const visitedNodesInOrder = randomWalk(grid, startNode, finishNode);
+      this.animateRandomWalk(visitedNodesInOrder);
+    }, 10);
+  }
+
+  visualizeGreedyBFS() {
+    if (this.state.visualizingAlgorithm) {
+      return;
+    }
+    this.setState({ visualizingAlgorithm: true });
+    setTimeout(() => {
+      const { grid } = this.state;
+      const startNode = grid[startNodeRow][startNodeCol];
+      const finishNode = grid[finishNodeRow][finishNodeCol];
+      const visitedNodesInOrder = greedyBFS(grid, startNode, finishNode);
+      const nodesInShortestPathOrder =
+        getNodesInShortestPathOrderGreedyBFS(finishNode);
+      this.animateAlgorithm(visitedNodesInOrder, nodesInShortestPathOrder);
+    }, 10);
+  }
+
+  animateRandomWalk = (visitedNodesInOrder) => {
+    for (let i = 1; i <= visitedNodesInOrder.length; i++) {
+      if (i === visitedNodesInOrder.length) {
+        setTimeout(() => {
+          this.setState({ visualizingAlgorithm: false });
+        }, i * 10);
+        return;
+      }
+      let node = visitedNodesInOrder[i];
+      if (i === visitedNodesInOrder.length - 1) {
+        setTimeout(() => {
+          //finish node
+          document.getElementById(`node-${node.row}-${node.col}`).className =
+            'node node-finish-reached';
+        }, i * 10);
+        continue;
+      }
+      setTimeout(() => {
+        //visited node
+        document.getElementById(`node-${node.row}-${node.col}`).className =
+          'node node-visited';
+      }, i * 10);
+    }
+  };
 
   animateAlgorithm = (visitedNodesInOrder, nodesInShortestPathOrder) => {
     let newGrid = this.state.grid.slice();
@@ -183,13 +286,16 @@ export class PathFindingVisualizer extends Component {
 
   render() {
     let { grid } = this.state;
-    console.log(grid);
     return (
       <>
         <Navbar
           visualizingAlgorithm={this.state.visualizingAlgorithm}
           visualizeDFS={this.visualizeDFS.bind(this)}
           visualizeBFS={this.visualizeBFS.bind(this)}
+          visualizeDijkstra={this.visualizeDijkstra.bind(this)}
+          visualizeAStar={this.visualizeAStar.bind(this)}
+          visualizeRandomWalk={this.visualizeRandomWalk.bind(this)}
+          visualizeGreedyBFS={this.visualizeGreedyBFS.bind(this)}
           clearGrid={this.clearGrid.bind(this)}
           clearPath={this.clearPath.bind(this)}
         />

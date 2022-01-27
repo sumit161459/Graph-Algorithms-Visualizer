@@ -47,6 +47,14 @@ export class Navbar extends Component {
         this.props.visualizeDFS();
       else if (this.state.algorithm === 'Visualize Breadth First Search')
         this.props.visualizeBFS();
+      else if (this.state.algorithm === 'Visualize Dijkstra')
+        this.props.visualizeDijkstra();
+      else if (this.state.algorithm === 'Visualize A*')
+        this.props.visualizeAStar();
+      else if (this.state.algorithm === 'Visualize Random Walk')
+        this.props.visualizeRandomWalk();
+      else if (this.state.algorithm === 'Visualize Greedy BFS')
+        this.props.visualizeGreedyBFS();
     }
   }
 
@@ -109,6 +117,13 @@ export class Navbar extends Component {
                   <button
                     className="dropdown-item btn-light"
                     type="button"
+                    onClick={() => this.selectAlgorithm('Visualize Dijkstra')}
+                  >
+                    Dijkstra's Algorithm
+                  </button>
+                  <button
+                    className="dropdown-item btn-light"
+                    type="button"
                     onClick={() =>
                       this.selectAlgorithm('Visualize Depth First Search')
                     }
@@ -123,6 +138,29 @@ export class Navbar extends Component {
                     }
                   >
                     Breadth First Search
+                  </button>
+                  <button
+                    className="dropdown-item btn-light"
+                    type="button"
+                    onClick={() => this.selectAlgorithm('Visualize A*')}
+                  >
+                    A* Algorithm
+                  </button>
+                  <button
+                    className="dropdown-item btn-light"
+                    type="button"
+                    onClick={() =>
+                      this.selectAlgorithm('Visualize Random Walk')
+                    }
+                  >
+                    Random Walk
+                  </button>
+                  <button
+                    className="dropdown-item btn-light"
+                    type="button"
+                    onClick={() => this.selectAlgorithm('Visualize Greedy BFS')}
+                  >
+                    Greedy Best First Search
                   </button>
                 </div>
               </div>{' '}
