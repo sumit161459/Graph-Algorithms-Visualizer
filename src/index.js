@@ -1,8 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import PathFindingVisualizer from './pathfindingVisualizer/PathFindingVisualizer';
-
-
+import './index.css';
+import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap/js/dist/dropdown';
+import PathFindingVisualizer from './pathfindingVisualizer/pathFindingVisualizer';
 
 ReactDOM.render(
   <React.StrictMode>
