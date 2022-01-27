@@ -1,11 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
+import PathFindingVisualizer from './PathFindingVisualizer';
+
 
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <PathFindingVisualizer />
   </React.StrictMode>,
   document.getElementById('root')
 );
