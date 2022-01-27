@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import PathFindingVisualizer from './PathFindingVisualizer';
+import PathFindingVisualizer from './pathfindingVisualizer/PathFindingVisualizer';
 
 
 
